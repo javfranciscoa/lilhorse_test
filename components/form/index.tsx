@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTask } from "../../redux/store";
+import { addTask, useAppDispatch } from "../../redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,7 +8,7 @@ interface Props {
 }
 
 const CreateTaskForm: React.FC<Props> = ({ cancelButtonForm }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskDueDate, setTaskDueDate] = useState("");

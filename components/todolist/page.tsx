@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const { todoList, user } = useSelector(
-    (state) => ({
-      todoList: state.main.todoList,
-      user: state.main.user,
+  const { todoList } = useSelector(
+    (state: any) => ({
+      todoList: state.main.todoList as any
     }),
     shallowEqual,
   );
@@ -19,7 +18,7 @@ const Dashboard = () => {
     });
     const sortedDates = orderByDateTask.sort(
       (a, b) => a.date.getTime() - b.date.getTime(),
-    );
+    ) as any;
     setOrderByDateTask(sortedDates);
   }, [todoList]);
 
@@ -48,16 +47,16 @@ const Dashboard = () => {
               {orderByDateTask?.length > 0 ? (
                 orderByDateTask
                   .slice(0, 5)
-                  .filter((i) => !i.completed)
-                  .map((item) => (
-                    <li key={item.id} className="py-6 sm:py-4 ">
+                  .filter((i: any) => !i.completed)
+                  .map((item: any) => (
+                    <li key={item?.id} className="py-6 sm:py-4 ">
                       <div className="flex items-center space-x-4  border-l border-gray-300">
                         <div className="ml-3 flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-900 truncate dark:text-white">
-                            {item.title}
+                            {item?.title}
                           </p>
                           <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                            {item.category}
+                            {item?.category}
                           </p>
                         </div>
                       </div>

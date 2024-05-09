@@ -1,16 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
-import { loadSessionStorageAndUser } from "@/redux/store";
+import { loadSessionStorageAndUser, useAppDispatch } from "@/redux/store";
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const dispatch = useDispatch();
-  const userLoggedIn = useSelector((state) => state.main.user.isLoggedIn);
-  const todoList = useSelector((state) => state.main.todoList);
+  const dispatch = useAppDispatch();
+  const userLoggedIn = useSelector((state: any) => state.main.user.isLoggedIn as any);
   const storedToken = sessionStorage.getItem("auth");
   const userLoggedInSessionStorage: { [key: string]: any } | null = storedToken
     ? JSON.parse(storedToken)
@@ -19,7 +18,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (userLoggedInSessionStorage?.isLoggedIn && !userLoggedIn) {
     const todoCommingFromSession = sessionStorage.getItem("todos");
-    const parseTodoList = JSON.parse(todoCommingFromSession);
+    const parseTodoList = JSON.parse(todoCommingFromSession as any);
     parseTodoList?.length > 0 &&
       dispatch(
         loadSessionStorageAndUser({

@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Form from "../../components/form/index";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import ProtectedRoute from "@/components/ProtectedRouting";
 import {
   completeTask,
   filterByCategoryAction,
   removeTask,
+  useAppDispatch,
 } from "@/redux/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,12 +15,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { todoList, isFiltering } = useSelector(
-    (state) => ({
-      todoList: state.main.todoList,
-      isFiltering: state.main.isFiltering,
+    (state: any) => ({
+      todoList: state.main.todoList as any,
+      isFiltering: state.main.isFiltering as any,
     }),
     shallowEqual,
   );
@@ -74,8 +75,8 @@ const Dashboard = () => {
           <div className="flex flex-col flex-grow p-4 overflow-auto">
             {todoList?.length > 0 &&
               todoList
-                .filter((items) => items.completed)
-                .map((item) => (
+                .filter((items: any) => items.completed)
+                .map((item: any) => (
                   <div
                     key={item.id}
                     className="border-l rounded-lg drop-shadow-2xl  border-gray-300 my-5"
@@ -114,8 +115,9 @@ const Dashboard = () => {
           <div className="flex items-center justify-between flex-shrink-0 h-16 px-8 border-b border-gray-300">
             <h1 className="text-lg font-medium">Filter by category</h1>
             {todoList?.length > 0 &&
-              todoList.map((item) => (
+              todoList.map((item: any) => (
                 <button
+                key={item.id}
                   onClick={() => filterByCategory(item.category)}
                   className="flex items-center justify-center h-10 px-4 ml-2 text-sm font-medium bg-gray-200 rounded hover:bg-gray-300"
                 >
@@ -138,7 +140,7 @@ const Dashboard = () => {
           <div className="flex-grow p-6 overflow-auto bg-gray-200">
             <div className="flex flex-row space-y-4 flex-wrap">
               {todoList?.length > 0 &&
-                todoList.map((item) => (
+                todoList.map((item: any) => (
                   <div
                     key={item.id}
                     style={{

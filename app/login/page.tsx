@@ -1,14 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import ImageComponent from "../../components/ImageComponent";
-import { useDispatch } from "react-redux";
-import { fetchUser } from "../../redux/store";
+import { User, fetchUser, useAppDispatch } from "../../redux/store";
 import { useRouter } from "next/navigation";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   return (
     <>
@@ -43,7 +42,7 @@ const LoginComponent = () => {
             className="bg-ButtonColor w-full text-white px-4 py-2 rounded-md hover:bg-blue-600 mb-4"
             onClick={() =>
               dispatch(fetchUser({ email, password })).then(
-                (res) => res?.payload?.isLoggedIn && router.push("/"),
+                (res: any) => res?.payload?.isLoggedIn && router.push("/"),
               )
             }
           >

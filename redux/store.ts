@@ -5,11 +5,13 @@ import {
   createAsyncThunk,
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+
 
 const API_URL =
   "https://dev-api.contender-logistics.draketechdev.ca/api/auth/login";
 
-interface TodoTask {
+export interface TodoTask {
   id: string;
   title: string;
   completed: boolean;
@@ -17,6 +19,7 @@ interface TodoTask {
   category: string;
   dueDate: string;
 }
+
 
 export interface User {
   token: string;
@@ -71,7 +74,7 @@ export const fetchUser = createAsyncThunk(
       };
 
       sessionStorage.setItem("auth", JSON.stringify(responseObject));
-      return responseObject;
+      return responseObject as User;
     }
   },
 );
@@ -132,7 +135,7 @@ const todoSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload as User;
         state.status = "fulfilled";
       });
   },
@@ -152,5 +155,6 @@ const store = configureStore({
     main: todoSlice.reducer,
   },
 });
-
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch: () => AppDispatch = useDispatch
 export default store;
