@@ -18,7 +18,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const router = useRouter();
 
   if (userLoggedInSessionStorage?.isLoggedIn && !userLoggedIn && typeof sessionStorage !== 'undefined') {
-    const todoCommingFromSession = sessionStorage.getItem("todos");
+    const todoCommingFromSession = sessionStorage.getItem("todos") as any;
     const parseTodoList = JSON.parse(todoCommingFromSession);
     parseTodoList?.length > 0 &&
       dispatch(
