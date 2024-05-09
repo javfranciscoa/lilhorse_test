@@ -10,15 +10,16 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const dispatch = useAppDispatch();
   const userLoggedIn = useSelector((state: any) => state.main.user.isLoggedIn as any);
-  const storedToken = sessionStorage.getItem("auth");
+
+  const storedToken = typeof sessionStorage !== 'undefined' && window.sessionStorage.getItem("auth");
   const userLoggedInSessionStorage: { [key: string]: any } | null = storedToken
     ? JSON.parse(storedToken)
     : null;
   const router = useRouter();
 
-  if (userLoggedInSessionStorage?.isLoggedIn && !userLoggedIn) {
+  if (userLoggedInSessionStorage?.isLoggedIn && !userLoggedIn && typeof sessionStorage !== 'undefined') {
     const todoCommingFromSession = sessionStorage.getItem("todos");
-    const parseTodoList = JSON.parse(todoCommingFromSession as any);
+    const parseTodoList = JSON.parse(todoCommingFromSession);
     parseTodoList?.length > 0 &&
       dispatch(
         loadSessionStorageAndUser({
